@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.issog.jetrewardcompose.data.JetRewardRepository
 import com.issog.jetrewardcompose.ui.screen.cart.CartViewModel
+import com.issog.jetrewardcompose.ui.screen.detail.DetailRewardViewModel
 import com.issog.jetrewardcompose.ui.screen.home.HomeViewModel
 
 class ViewModelFactory(private val repository: JetRewardRepository): ViewModelProvider.NewInstanceFactory() {
@@ -15,6 +16,8 @@ class ViewModelFactory(private val repository: JetRewardRepository): ViewModelPr
                  HomeViewModel(repository) as T
             modelClass.isAssignableFrom(CartViewModel::class.java) ->
                 CartViewModel(repository) as T
+            modelClass.isAssignableFrom(DetailRewardViewModel::class.java) ->
+                DetailRewardViewModel(repository) as T
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
