@@ -6,7 +6,6 @@ import com.issog.jetrewardcompose.data.JetRewardRepository
 import com.issog.jetrewardcompose.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CartViewModel(
