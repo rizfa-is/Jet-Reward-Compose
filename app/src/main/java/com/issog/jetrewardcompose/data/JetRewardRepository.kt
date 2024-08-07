@@ -1,6 +1,6 @@
 package com.issog.jetrewardcompose.data
 
-import com.issog.jetrewardcompose.model.FakeRewardDataSource
+import com.issog.jetrewardcompose.data.source.FakeRewardDataSource
 import com.issog.jetrewardcompose.model.OrderReward
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

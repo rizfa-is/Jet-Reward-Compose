@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.issog.jetrewardcompose.R
-import com.issog.jetrewardcompose.model.FakeRewardDataSource
+import com.issog.jetrewardcompose.data.source.FakeRewardDataSource
 import com.issog.jetrewardcompose.ui.theme.JetRewardComposeTheme
 
 @Composable

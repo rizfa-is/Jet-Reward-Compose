@@ -17,13 +17,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.issog.jetrewardcompose.ui.navigation.NavigationItem
 import com.issog.jetrewardcompose.ui.navigation.Screen
 import com.issog.jetrewardcompose.ui.screen.cart.CartScreen
+import com.issog.jetrewardcompose.ui.screen.detail.DetailRewardScreen
 import com.issog.jetrewardcompose.ui.screen.home.HomeScreen
 import com.issog.jetrewardcompose.ui.screen.profile.ProfileScreen
 import com.issog.jetrewardcompose.ui.theme.JetRewardComposeTheme
@@ -33,9 +36,14 @@ fun JetRewardApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute  = navBackStackEntry?.destination?.route
+
     Scaffold(
         bottomBar = {
-            BottomBar(navController)
+            if (currentRoute != Screen.DetailReward.route) {
+                BottomBar(navController, currentRoute)
+            }
         },
         modifier = modifier
     ) { innerPadding ->
@@ -45,13 +53,28 @@ fun JetRewardApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(
+                    navigateToDetail = { rewardId ->
+                        navController.navigate(Screen.DetailReward.createRoute(rewardId))
+                    }
+                )
             }
             composable(Screen.Cart.route) {
                 CartScreen()
             }
             composable(Screen.Profile.route) {
                 ProfileScreen()
+            }
+            composable(
+                route = Screen.DetailReward.route,
+                arguments = listOf(navArgument("rewardId") { type = NavType.LongType })
+            ) {
+                val rewardId = it.arguments?.getLong("rewardId") ?: -1L
+                DetailRewardScreen(
+                    rewardId = rewardId,
+                    navigateBack = { navController.navigateUp() },
+                    navigateToCart = { }
+                )
             }
         }
     }
@@ -60,13 +83,12 @@ fun JetRewardApp(
 @Composable
 fun BottomBar(
     navController: NavHostController,
+    currentRoute: String?,
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
         modifier = modifier
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute  = navBackStackEntry?.destination?.route
 
         val navigationItems = listOf(
             NavigationItem(

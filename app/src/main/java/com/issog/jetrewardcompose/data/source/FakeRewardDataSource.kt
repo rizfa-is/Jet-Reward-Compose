@@ -1,6 +1,7 @@
-package com.issog.jetrewardcompose.model
+package com.issog.jetrewardcompose.data.source
 
 import com.issog.jetrewardcompose.R
+import com.issog.jetrewardcompose.model.Reward
 
 object FakeRewardDataSource {
     val dummyRewards = listOf(

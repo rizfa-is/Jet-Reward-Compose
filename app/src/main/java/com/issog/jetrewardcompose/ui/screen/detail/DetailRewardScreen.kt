@@ -37,8 +37,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.issog.jetrewardcompose.R
+import com.issog.jetrewardcompose.data.source.FakeRewardDataSource
 import com.issog.jetrewardcompose.di.Injection
-import com.issog.jetrewardcompose.model.FakeRewardDataSource
 import com.issog.jetrewardcompose.ui.ViewModelFactory
 import com.issog.jetrewardcompose.ui.common.UiState
 import com.issog.jetrewardcompose.ui.components.OrderButton
