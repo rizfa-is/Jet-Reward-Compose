@@ -69,7 +69,10 @@ fun DetailRewardScreen(
                     basePoint = data.reward.requiredPoint,
                     count = data.count,
                     onBackClick = navigateBack,
-                    onAddToCart = navigateToCart
+                    onAddToCart = {
+                        viewModel.addToCart(uiState.data.reward, it)
+                        navigateToCart.invoke()
+                    }
                 )
             }
             is UiState.Error -> {}
@@ -84,7 +87,7 @@ fun DetailContent(
     basePoint: Int,
     count: Int,
     onBackClick: () -> Unit,
-    onAddToCart: () -> Unit,
+    onAddToCart: (count: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -163,7 +166,9 @@ fun DetailContent(
             OrderButton(
                 text = stringResource(R.string.add_to_cart, totalPoint),
                 enabled = orderCount > 0,
-                onClick = onAddToCart
+                onClick = {
+                    onAddToCart.invoke(orderCount)
+                }
             )
         }
     }
