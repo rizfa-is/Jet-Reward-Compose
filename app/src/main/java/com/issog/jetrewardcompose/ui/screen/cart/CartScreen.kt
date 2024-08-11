@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,7 +35,8 @@ fun CartScreen(
         factory = ViewModelFactory(
             Injection.provideJetRewardRepository()
         )
-    )
+    ),
+    onOrderButtonClicked: (String) -> Unit,
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when(uiState) {
@@ -46,7 +48,8 @@ fun CartScreen(
                     state = uiState.data,
                     onProductChanged = { rewardId, count ->
                         viewModel.updateOrderReward(rewardId, count)
-                    }
+                    },
+                    onOrderButtonClicked = onOrderButtonClicked
                 )
             }
             is UiState.Error -> { }
@@ -59,6 +62,7 @@ fun CartScreen(
 fun CartContent(
     state: CartState,
     onProductChanged: (rewardId: Long, count: Int) -> Unit,
+    onOrderButtonClicked: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val shareMessage = stringResource(
@@ -66,7 +70,9 @@ fun CartContent(
         state.orderReward.count(),
         state.totalRequiredPoint
     )
-    Column {
+    Column (
+        modifier = modifier.fillMaxSize()
+    ){
         CenterAlignedTopAppBar(
             title = {
                 Text(
@@ -105,7 +111,7 @@ fun CartContent(
             text = stringResource(R.string.total_order, state.totalRequiredPoint),
             enabled = state.orderReward.isNotEmpty(),
             onClick = {
-
+                      onOrderButtonClicked.invoke(shareMessage)
             },
             modifier = Modifier.padding(16.dp)
         )
